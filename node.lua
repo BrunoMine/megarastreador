@@ -89,7 +89,7 @@ for n, row in ipairs(megarastreador_rastreadores) do
 		stack_max = 1,
 		tiles = {"megarastreador_cima.png","megarastreador_baixo.png","megarastreador_lado.png","megarastreador_lado.png","megarastreador_fundo.png",textura_node},
 		node_box = {type = "fixed",fixed = {{-0.375, -0.5, -0.1875, 0.375, 0.0625, 0.1875},{0.3125, -0.4375, 0.125, 0.25, 0.5, 0.0625},{-0.25, -0.3125, -0.25, -0.0625, 0, -0.125},{-0.3125, -0.25, -0.25, 0, -0.0625, -0.125},{0.125, -0.5, 0, 0.1875, 0.4375, 0.0625}}},
-		groups = {attached_node=1, not_in_creative_inventory = 1, oddly_breakable_by_hand=3},
+		groups = {not_in_creative_inventory = 1, oddly_breakable_by_hand=3},
 		sounds = default.node_sound_stone_defaults(),
 		on_dig = function(pos, node, digger)
 			local meta = minetest.env:get_meta(pos)

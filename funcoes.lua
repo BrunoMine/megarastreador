@@ -119,7 +119,7 @@ end
 function megarastreador_beepar_redefiniu(player)
 	minetest.sound_play("megarastreador_beep_redefiniu", {
 		to_player = player,
-		gain = 4.0,
+		gain = 6.0,
 	})
 end
 
@@ -127,7 +127,7 @@ end
 function megarastreador_beepar_descarregou(player)
 	minetest.sound_play("megarastreador_beep_descarregou", {
 		to_player = player,
-		gain = 4.0,
+		gain = 5.0,
 	})
 end
 
