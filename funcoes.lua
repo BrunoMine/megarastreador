@@ -148,7 +148,7 @@ end
 -- Funcao rastrear
 function megarastreador_rastrear(player, itemstack, referencia)
 	local inv = player:get_inventory()
-	if itemstack:get_name()~="" then
+	if itemstack:get_name()~="" and inv:contains_item("main", itemstack)then
 		local pos = player:getpos()
 		if pos and minetest.find_node_near(pos, 2, referencia) ~= nil then
 			megarastreador_beepar(player)

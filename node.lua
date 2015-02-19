@@ -45,8 +45,7 @@ for n, row in ipairs(megarastreador_rastreadores) do
 			on_use = function(itemstack, user)
 				itemstack:set_name("megarastreador:rastreador_ferramenta_"..nome.."_ativo")
 				local referencia = refe
-				local nome = "megarastreador:rastreador_ferramenta_"..nome.."_ativo"
-				minetest.after(1, megarastreador_rastrear, user, nome, referencia)
+				minetest.after(1, megarastreador_rastrear, user, itemstack, referencia)
 				minetest.after(1, megarastreador_desgastar, user, itemstack)
 				return itemstack
 			end,

@@ -6,7 +6,7 @@
 --
 
 -- Tempo total da bateria (em minutos)
-local tempo_bateria_em_minutos = 0.25
+local tempo_bateria_em_minutos = 10
 
 -- Item que recarrega a bateria (string)
 local bateria = ""
