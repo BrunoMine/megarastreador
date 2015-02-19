@@ -115,9 +115,28 @@ function megarastreador_beepar(player)
 	})
 end
 
+-- Funcao de tocar Beep redefiniu
+function megarastreador_beepar_redefiniu(player)
+	minetest.sound_play("megarastreador_beep_redefiniu", {
+		to_player = player,
+		gain = 4.0,
+	})
+end
+
+-- Funcao de tocar Beep 
+function megarastreador_beepar_descarregou(player)
+	minetest.sound_play("megarastreador_beep_descarregou", {
+		to_player = player,
+		gain = 4.0,
+	})
+end
+
 -- Funcao desgaste de bateria
 function megarastreador_desgastar(player, itemstack)
 	local inv = player:get_inventory()
+	if (65535-itemstack:get_wear()) <= (megarastreador_tempo_bateria) then
+		megarastreador_beepar_descarregou(player)
+	end
 	if inv:contains_item("main", itemstack) then
 		inv:remove_item("main", itemstack)
 		itemstack:add_wear(megarastreador_tempo_bateria) 
@@ -129,7 +148,7 @@ end
 -- Funcao rastrear
 function megarastreador_rastrear(player, itemstack, referencia)
 	local inv = player:get_inventory()
-	if inv:contains_item("main", itemstack) then
+	if itemstack:get_name()~="" then
 		local pos = player:getpos()
 		if pos and minetest.find_node_near(pos, 2, referencia) ~= nil then
 			megarastreador_beepar(player)
