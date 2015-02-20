@@ -101,12 +101,6 @@ for n, row in ipairs(megarastreador_rastreadores) do
 	    	end
 	    end,
 	})
-	-- Receita para recarga
-	minetest.register_craft({
-		type = "shapeless",
-		output = "megarastreador:rastreador_ferramenta_"..nome,
-		recipe = {"megarastreador:rastreador_ferramenta_"..nome, megarastreador_bateria},
-	})
 	
 	minetest.register_alias("rastreadorde"..nome, "megarastreador:rastreador_ferramenta_"..nome)
 end
