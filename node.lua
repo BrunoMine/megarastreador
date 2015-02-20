@@ -27,7 +27,9 @@ for n, row in ipairs(megarastreador_rastreadores) do
 			return itemstack
 		end,
 		on_place = function(itemstack, placer, pointed_thing)
-			if pointed_thing.type == "node" then
+			local pos = pointed_thing.above
+			local lugar = minetest.get_node(pos)
+			if lugar.name=="air" then
 				local pos = pointed_thing.above
 				local node = minetest.get_node(pos)
 				node.name = "megarastreador:rastreador_"..nome
