@@ -109,26 +109,38 @@ end
 
 -- Funcao de tocar Beep
 function megarastreador_beepar(player)
-	minetest.sound_play("megarastreador_beep", {
-		to_player = player,
-		gain = 3.0,
-	})
+	if player~=nil and player:is_player() then
+		minetest.sound_play("megarastreador_beep", {
+			--to_player = player,
+			pos=player:getpos(),
+			gain = 3.0,
+			max_hear_distance = 3,
+		})
+	end
 end
 
 -- Funcao de tocar Beep redefiniu
 function megarastreador_beepar_redefiniu(player)
-	minetest.sound_play("megarastreador_beep_redefiniu", {
-		to_player = player,
-		gain = 6.0,
-	})
+	if player~=nil and player:is_player() then
+		minetest.sound_play("megarastreador_beep_redefiniu", {
+			--to_player = player,
+			pos=player:getpos(),
+			gain = 6.0,
+			max_hear_distance = 3,
+		})
+	end
 end
 
 -- Funcao de tocar Beep 
 function megarastreador_beepar_descarregou(player)
-	minetest.sound_play("megarastreador_beep_descarregou", {
-		to_player = player,
-		gain = 5.0,
-	})
+	if player~=nil and player:is_player() then
+		minetest.sound_play("megarastreador_beep_descarregou", {
+			--to_player = player,
+			pos=player:getpos(),
+			gain = 5.0,
+			max_hear_distance = 3,
+		})
+	end
 end
 
 -- Funcao desgaste de bateria
