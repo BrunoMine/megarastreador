@@ -32,10 +32,11 @@ for n, row in ipairs(megarastreador_rastreadores) do
 				local node = minetest.get_node(pos)
 				node.name = "megarastreador:rastreador_"..nome
 				local meta = minetest.get_meta(pos)
-				local porcentagem_desgaste = 100-( math.ceil( (itemstack:get_wear()/65535)*100 ) );
+				local desgaste = itemstack:get_wear()
+				local porcentagem_desgaste = 100-( math.ceil( (desgaste/65535)*100 ) );
 				minetest.env:set_node(pos, node)
 				nodeupdate(pos)
-				meta:set_string("desgaste", itemstack:get_wear())
+				meta:set_string("desgaste", desgaste)
 				meta:set_string("infotext", "Rastreador (Beteria "..porcentagem_desgaste.."%)")
 				itemstack:take_item()
 				return itemstack
@@ -75,30 +76,38 @@ for n, row in ipairs(megarastreador_rastreadores) do
 			minetest.remove_node(pos)
 		end,
 	    on_rightclick = function(pos, node, player, itemstack)
-	    	if itemstack:get_name() == megarastreador_bateria then
-	    		local meta = minetest.env:get_meta(pos)
-	    		meta:set_string("desgaste", 0)
-	    		local desgaste = meta:get_string("desgaste")
-	    		local porcentagem_desgaste = 100-( math.ceil( (desgaste/65535)*100 ) );
-				meta:set_string("infotext", "Rastreador (Beteria "..porcentagem_desgaste.."%)")
-				nodeupdate(pos)
-	    		itemstack:take_item()
-	    		megarastreador_beepar_redefiniu(player)
-	    		return itemstack
-	    	else
-		    	local item = itemstack:get_name()
-		    	local novo_rastreador = megarastreador_verificar_referencia(item)
-		    	if novo_rastreador ~= nil then
-		    		node.name = novo_rastreador
-		    		local meta = minetest.get_meta(pos)
+	    	if itemstack:get_name() ~= "" then
+		    	if itemstack:get_name() == megarastreador_bateria then
+		    		local meta = minetest.env:get_meta(pos)
+	    			local desgaste = meta:get_string("desgaste")
+			    	local porcentagem_desgaste = 100-( math.ceil( (desgaste/65535)*100 ) );
+		    		if porcentagem_desgaste < 100 then
+			    		meta:set_string("desgaste", 0)
+			    		local desgaste = meta:get_string("desgaste")
+			    		local porcentagem_desgaste = 100-( math.ceil( (desgaste/65535)*100 ) );
+						meta:set_string("infotext", "Rastreador (Beteria "..porcentagem_desgaste.."%)")
+						nodeupdate(pos)
+			    		itemstack:take_item()
+			    		megarastreador_beepar_redefiniu(player)
+			    		return itemstack
+			    	end
+		    	else
+		    		local meta = minetest.env:get_meta(pos)
 		    		local desgaste = meta:get_string("desgaste")
-					minetest.env:set_node(pos, node)
-					local porcentagem_desgaste = 100-( math.ceil( (desgaste/65535)*100 ) );
-					meta:set_string("infotext", "Rastreador (Beteria "..porcentagem_desgaste.."%)")
-					nodeupdate(pos)
-					megarastreador_beepar_redefiniu(player)
+		    		print("desgaste = "..desgaste)
+		    		local porcentagem_desgaste = 100-( math.ceil( (desgaste/65535)*100 ) );
+			    	local item = itemstack:get_name()
+			    	local novo_rastreador = megarastreador_verificar_referencia(item)
+			    	if novo_rastreador ~= nil then
+			    		node.name = novo_rastreador
+						minetest.env:set_node(pos, node)
+						meta:set_string("infotext", "Rastreador (Beteria "..porcentagem_desgaste.."%)")
+						meta:set_string("desgaste", desgaste)
+						nodeupdate(pos)
+						megarastreador_beepar_redefiniu(player)
+			    	end
 		    	end
-	    	end
+		    end
 	    end,
 	})
 	
