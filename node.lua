@@ -12,61 +12,39 @@ for n, row in ipairs(megarastreador_rastreadores) do
 	local novo_node = "megarastreador:rastreador_"..nome
 	megarastreador_gerar_exemplar(exemplar, novo_node)
 	-- Ferramenta Rastreadora
-	if n == 1 then
-		minetest.register_tool("megarastreador:rastreador_ferramenta_"..nome, {
-			description = desc,
-			inventory_image = textura_ferramenta,
-			on_use = function(itemstack, user)
-				itemstack:set_name("megarastreador:rastreador_ferramenta_"..nome.."_ativo")
-				local referencia = refe
-				minetest.after(1, megarastreador_rastrear, user, itemstack, referencia)
-				minetest.after(1, megarastreador_desgastar, user, itemstack)
-				return itemstack
-			end,
-			on_place = function(itemstack, placer, pointed_thing)
-				if pointed_thing.type == "node" then
-					local node = minetest.get_node(pointed_thing.under)
-					node.name = "megarastreador:rastreador_"..nome
-					local meta = minetest.get_meta(pointed_thing.above)
-					local desgaste = itemstack:get_wear()
-					local porcentagem_desgaste = (desgaste/65535)*100;
-					minetest.env:set_node(pointed_thing.above, node)
-					nodeupdate(pointed_thing.above)
-					local meta = minetest.get_meta(pointed_thing.above)
-					meta:set_string("desgaste", desgaste)
-					meta:set_string("infotext", desc)
-				end
-			end,
-		})
-	else
-		minetest.register_tool("megarastreador:rastreador_ferramenta_"..nome, {
-			description = desc,
-			inventory_image = textura_ferramenta,
-			on_use = function(itemstack, user)
-				itemstack:set_name("megarastreador:rastreador_ferramenta_"..nome.."_ativo")
-				local referencia = refe
-				minetest.after(1, megarastreador_rastrear, user, itemstack, referencia)
-				minetest.after(1, megarastreador_desgastar, user, itemstack)
-				return itemstack
-			end,
-			on_place = function(itemstack, placer, pointed_thing)
-				if pointed_thing.type == "node" then
-					local node = minetest.get_node(pointed_thing.under)
-					node.name = "megarastreador:rastreador_"..nome
-					local meta = minetest.get_meta(pointed_thing.above)
-					local desgaste = itemstack:get_wear()
-					local porcentagem_desgaste = (desgaste/65535)*100;
-					minetest.env:set_node(pointed_thing.above, node)
-					nodeupdate(pointed_thing.above)
-					local meta = minetest.get_meta(pointed_thing.above)
-					meta:set_string("desgaste", desgaste)
-					meta:set_string("infotext", desc)
-				end
-			end,
-			groups = {not_in_creative_inventory = 1},
-		})
-	end
+
+	local doGroup = { }
+	if n ~= 1 then doGroup = {not_in_creative_inventory = 1} end
 	
+	minetest.register_tool("megarastreador:rastreador_ferramenta_"..nome, {
+		description = desc,
+		inventory_image = textura_ferramenta,
+		on_use = function(itemstack, user)
+			itemstack:set_name("megarastreador:rastreador_ferramenta_"..nome.."_ativo")
+			local referencia = refe
+			minetest.after(1, megarastreador_rastrear, user, itemstack, referencia)
+			minetest.after(1, megarastreador_desgastar, user, itemstack)
+			return itemstack
+		end,
+		on_place = function(itemstack, placer, pointed_thing)
+			if pointed_thing.type == "node" then
+				local node = minetest.get_node(pointed_thing.under)
+				node.name = "megarastreador:rastreador_"..nome
+				local meta = minetest.get_meta(pointed_thing.above)
+				local desgaste = itemstack:get_wear()
+				local porcentagem_desgaste = math.ceil( (desgaste/65535)*100 );
+				minetest.env:set_node(pointed_thing.above, node)
+				nodeupdate(pointed_thing.above)
+				local meta = minetest.get_meta(pointed_thing.above)
+				meta:set_string("desgaste", desgaste)
+				meta:set_string("infotext", desc)
+				itemstack:take_item()
+				return itemstack
+			end
+		end,
+		groups = doGroup,
+	})
+
 	-- Ferramenta Rastreadora Ativa
 	minetest.register_tool("megarastreador:rastreador_ferramenta_"..nome.."_ativo", {
 		description = desc.." Ativo",
@@ -112,8 +90,10 @@ for n, row in ipairs(megarastreador_rastreadores) do
 	})
 	-- Receita para recarga
 	minetest.register_craft({
-	type = "shapeless",
-	output = "megarastreador:rastreador_ferramenta_"..nome,
-	recipe = {"megarastreador:rastreador_ferramenta_"..nome, megarastreador_bateria},
-})
+		type = "shapeless",
+		output = "megarastreador:rastreador_ferramenta_"..nome,
+		recipe = {"megarastreador:rastreador_ferramenta_"..nome, megarastreador_bateria},
+	})
+	
+	minetest.register_alias("rastreadorde"..nome, "megarastreador:rastreador_ferramenta_"..nome)
 end
