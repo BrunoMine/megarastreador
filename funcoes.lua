@@ -2,6 +2,120 @@
 -- Funcoes
 --
 
+-- Desligar rastreador
+function megarastreador_desligar_rastreador(player, item)
+	local inv = player:get_inventory()
+	if inv:contains_item("main", item) then
+		inv:remove_item("main", item)
+		for n, row in ipairs(megarastreador_rastreadores) do
+			local nome = row[1]
+			local ferramenta_ativa = "megarastreador:rastreador_ferramenta_"..nome.."_ativo"
+			if item:get_name() == ferramenta_ativa then
+				item:set_name("megarastreador:rastreador_ferramenta_"..nome)
+			end
+		end
+		inv:add_item("main", item)
+	end
+end
+
+-- Pegar nome da ferramenta inativa
+function megarastreador_pegar_inativo(item)
+	local nome_ant = item:get_name()
+	for n, row in ipairs(megarastreador_rastreadores) do
+		local nome = row[1]
+		local ferramenta_ativa = "megarastreador:rastreador_ferramenta_"..nome.."_ativo"
+		if item == ferramenta_ativa then
+			item:set_name("megarastreador:rastreador_ferramenta_"..nome)
+			return item
+		end
+	end
+end
+
+-- Atribuir item unicos
+function megarastreador_atribuir_item_unico(item)
+	if megarastreador_item_unico1 == "" then
+		megarastreador_item_unico1 = item
+	else
+		if megarastreador_item_unico2 == "" then
+			megarastreador_item_unico2 = item
+		else
+			if megarastreador_item_unico3 == "" then
+				megarastreador_item_unico3 = item
+			else
+				if megarastreador_item_unico4 == "" then
+					megarastreador_item_unico4 = item
+				else
+					if megarastreador_item_unico5 == "" then
+						megarastreador_item_unico5 = item
+					else
+						if megarastreador_item_unico6 == "" then
+							megarastreador_item_unico6 = item
+						else
+							if megarastreador_item_unico7 == "" then
+								megarastreador_item_unico7 = item
+							else
+								if megarastreador_item_unico8 == "" then
+									megarastreador_item_unico8 = item
+								else
+									if megarastreador_item_unico9 == "" then
+										megarastreador_item_unico9 = item
+									else
+										if megarastreador_item_unico10 == "" then
+											megarastreador_item_unico10 = item
+										else
+											if megarastreador_item_unico11 == "" then
+												megarastreador_item_unico11 = item
+											else
+												if megarastreador_item_unico12 == "" then
+													megarastreador_item_unico12 = item
+												else
+													if megarastreador_item_unico13 == "" then
+														megarastreador_item_unico13 = item
+													else
+														if megarastreador_item_unico14 == "" then
+															megarastreador_item_unico14 = item
+														else
+															if megarastreador_item_unico15 == "" then
+																megarastreador_item_unico15 = item
+															else
+																if megarastreador_item_unico16 == "" then
+																	megarastreador_item_unico16 = item
+																else
+																	if megarastreador_item_unico17 == "" then
+																		megarastreador_item_unico17 = item
+																	else
+																		if megarastreador_item_unico18 == "" then
+																			megarastreador_item_unico18 = item
+																		else
+																			if megarastreador_item_unico19 == "" then
+																				megarastreador_item_unico19 = item
+																			else
+																				if megarastreador_item_unico20 == "" then
+																					megarastreador_item_unico20 = item
+																				else
+																					print("[MegaRastreador] Limite de 20 rastreadores exedido")
+																				end
+																			end
+																		end
+																	end
+																end
+															end
+														end
+													end
+												end
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+			end	
+		end
+	end
+end
+
 -- Gerar exemplar (atribui valores em variaveis)
 function megarastreador_gerar_exemplar(exemplar, novo_node)
 	if megarastreador_exemplar1 == "" then
@@ -123,7 +237,6 @@ end
 function megarastreador_beepar_redefiniu(player)
 	if player~=nil and player:is_player() then
 		minetest.sound_play("megarastreador_beep_redefiniu", {
-			--to_player = player,
 			pos=player:getpos(),
 			gain = 6.0,
 			max_hear_distance = 3,
@@ -135,7 +248,6 @@ end
 function megarastreador_beepar_descarregou(player)
 	if player~=nil and player:is_player() then
 		minetest.sound_play("megarastreador_beep_descarregou", {
-			--to_player = player,
 			pos=player:getpos(),
 			gain = 5.0,
 			max_hear_distance = 3,
@@ -189,84 +301,31 @@ end
 
 -- Verifica Qual sera o novo tipo de rastreador
 function megarastreador_verificar_referencia(item)
-	if item == megarastreador_exemplar1 then
-		return megarastreador_novo_node1
-	else
-		if item == megarastreador_exemplar2 then
-			return megarastreador_novo_node2
-		else
-			if item == megarastreador_exemplar3 then
-				return megarastreador_novo_node3
-			else
-				if item == megarastreador_exemplar4 then
-					return megarastreador_novo_node4
-				else
-					if item == megarastreador_exemplar5 then
-						return megarastreador_novo_node5
-					else
-						if item == megarastreador_exemplar6 then
-							return megarastreador_novo_node6
-						else
-							if item == megarastreador_exemplar7 then
-								return megarastreador_novo_node7
-							else
-								if item == megarastreador_exemplar8 then
-									return megarastreador_novo_node8
-								else
-									if item == megarastreador_exemplar9 then
-										return megarastreador_novo_node9
-									else
-										if item == megarastreador_exemplar10 then
-											return megarastreador_novo_node10
-										else
-											if item == megarastreador_exemplar11 then
-												return megarastreador_novo_node11
-											else
-												if item == megarastreador_exemplar12 then
-													return megarastreador_novo_node12
-												else
-													if item == megarastreador_exemplar13 then
-														return megarastreador_novo_node13
-													else
-														if item == megarastreador_exemplar14 then
-															return megarastreador_novo_node14
-														else
-															if item == megarastreador_exemplar15 then
-																return megarastreador_novo_node15
-															else
-																if item == megarastreador_exemplar16 then
-																	return megarastreador_novo_node16
-																else
-																	if item == megarastreador_exemplar17 then
-																		return megarastreador_novo_node17
-																	else
-																		if item == megarastreador_exemplar18 then
-																			return megarastreador_novo_node18
-																		else
-																			if item == megarastreador_exemplar19 then
-																				return megarastreador_novo_node19
-																			else
-																				if item == megarastreador_exemplar20 then
-																					return megarastreador_novo_node20
-																				end
-																			end
-																		end
-																	end
-																end
-															end
-														end
-													end
-												end
-											end
-										end
-									end
-								end
-							end
-						end
-					end
-				end
-			end
+	for n, row in ipairs(megarastreador_rastreadores) do
+		local nome = row[1]
+		local exemplar = row[6]
+		local novo_node = "megarastreador:rastreador_"..nome
+		if item == exemplar then
+			return novo_node
 		end
+	end
+end
+
+-- Verificar se eh o unico
+function megarastreador_verificar_se_eh_unico(inv)
+	local num_ativ = 0
+	local lim_ativ = megarastreador_lim_ferram_ati - 1
+	for n, row in ipairs(megarastreador_rastreadores) do
+		local nome = row[1]
+		local ferramenta_ativa = "megarastreador:rastreador_ferramenta_"..nome.."_ativo"
+		if inv:contains_item("main", ferramenta_ativa) then
+			num_ativ = num_ativ + 1
+		end
+	end
+	if num_ativ == lim_ativ then
+		return true
+	else
+		return false
 	end
 end
 
@@ -291,3 +350,23 @@ megarastreador_exemplar17 = "";megarastreador_novo_node17 = ""
 megarastreador_exemplar18 = "";megarastreador_novo_node18 = ""
 megarastreador_exemplar19 = "";megarastreador_novo_node19 = ""
 megarastreador_exemplar20 = "";megarastreador_novo_node20 = ""
+megarastreador_item_unico1 = ""
+megarastreador_item_unico2 = ""
+megarastreador_item_unico3 = ""
+megarastreador_item_unico4 = ""
+megarastreador_item_unico5 = ""
+megarastreador_item_unico6 = ""
+megarastreador_item_unico7 = ""
+megarastreador_item_unico8 = ""
+megarastreador_item_unico9 = ""
+megarastreador_item_unico10 = ""
+megarastreador_item_unico11 = ""
+megarastreador_item_unico12 = ""
+megarastreador_item_unico13 = ""
+megarastreador_item_unico14 = ""
+megarastreador_item_unico15 = ""
+megarastreador_item_unico16 = ""
+megarastreador_item_unico17 = ""
+megarastreador_item_unico18 = ""
+megarastreador_item_unico19 = ""
+megarastreador_item_unico20 = ""

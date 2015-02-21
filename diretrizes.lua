@@ -5,15 +5,18 @@
 -- (Voce pode definir algumas partes do mod como achar necessario)
 --
 
--- Tempo total da bateria (em minutos)
+-- Total battery time (min)
 local tempo_bateria_em_minutos = 10
 
--- Item que recarrega a bateria (string)
+-- Item that recharges the battery (string)
 local bateria = ""
 
--- Tabela de Rastreadores (cuidado ao montar as texturas, verifique os ja existentes para usar como exemplo)
+-- Limite de ferramentas ativas (por jogador)
+local limite_de_ferramentas_ativas = 1
+
+-- Table Trackers (be careful when mounting the textures, check the already existing to use as an example)
 megarastreador_rastreadores = {
-	-- nome			Descricao					Referencia(string)				Textura da ferramenta								Textura do node							Ativador(string)
+	-- name			Description					Reference(string)				Texture of tool										Texture of node							Ativador(string)
 	{"mese",		"Rastreador de Mese",		"default:stone_with_mese",		"megarastreador_imagem_inventario_mese.png"	,		"megarastreador_frente_mese.png",		"default:mese_crystal"},
 	{"diamante",	"Rastreador de Diamante",	"default:stone_with_diamond",	"megarastreador_imagem_inventario_diamante.png",	"megarastreador_frente_diamante.png",	"default:diamond"},
 	{"ouro",		"Rastreador de Ouro",		"default:stone_with_gold",		"megarastreador_imagem_inventario_ouro.png",		"megarastreador_frente_ouro.png",		"default:gold_ingot"},
@@ -32,3 +35,5 @@ if megarastreador_bateria == "" then
 end
 
 megarastreador_tempo_bateria = (65535/(tempo_bateria_em_minutos*60))*5
+
+megarastreador_lim_ferram_ati = limite_de_ferramentas_ativas

@@ -10,9 +10,10 @@ for n, row in ipairs(megarastreador_rastreadores) do
 	local textura_node = row[5]
 	local exemplar = row[6]
 	local novo_node = "megarastreador:rastreador_"..nome
+	local ferramenta_ativa = "megarastreador:rastreador_ferramenta_"..nome.."_ativo"
+	megarastreador_atribuir_item_unico(ferramenta_ativa)
 	megarastreador_gerar_exemplar(exemplar, novo_node)
 	-- Ferramenta Rastreadora
-
 	local doGroup = { }
 	if n ~= 1 then doGroup = {not_in_creative_inventory = 1} end
 	
@@ -20,11 +21,18 @@ for n, row in ipairs(megarastreador_rastreadores) do
 		description = desc,
 		inventory_image = textura_ferramenta,
 		on_use = function(itemstack, user)
-			itemstack:set_name("megarastreador:rastreador_ferramenta_"..nome.."_ativo")
-			local referencia = refe
-			minetest.after(1, megarastreador_rastrear, user, itemstack, referencia)
-			minetest.after(1, megarastreador_desgastar, user, itemstack)
-			return itemstack
+			local inv = user:get_inventory()
+			if megarastreador_verificar_se_eh_unico(inv) then
+				itemstack:set_name("megarastreador:rastreador_ferramenta_"..nome.."_ativo")
+				local referencia = refe
+				minetest.after(1, megarastreador_rastrear, user, itemstack, referencia)
+				minetest.after(1, megarastreador_desgastar, user, itemstack)
+				return itemstack
+			else
+				local name = user:get_player_name()
+				local lim_ativ = megarastreador_lim_ferram_ati
+				minetest.chat_send_player(name, "Apenas "..lim_ativ.." Rastreador(s) Ativo(s) por vez")
+			end
 		end,
 		on_place = function(itemstack, placer, pointed_thing)
 			local pos = pointed_thing.above
@@ -33,13 +41,12 @@ for n, row in ipairs(megarastreador_rastreadores) do
 				local pos = pointed_thing.above
 				local node = minetest.get_node(pos)
 				node.name = "megarastreador:rastreador_"..nome
+				minetest.place_node(pos, node)
 				local meta = minetest.get_meta(pos)
 				local desgaste = itemstack:get_wear()
 				local porcentagem_desgaste = 100-( math.ceil( (desgaste/65535)*100 ) );
-				minetest.env:set_node(pos, node)
-				nodeupdate(pos)
 				meta:set_string("desgaste", desgaste)
-				meta:set_string("infotext", "Rastreador (Beteria "..porcentagem_desgaste.."%)")
+				meta:set_string("infotext", "Rastreador (Bateria "..porcentagem_desgaste.."%)")
 				itemstack:take_item()
 				return itemstack
 			end
@@ -52,8 +59,8 @@ for n, row in ipairs(megarastreador_rastreadores) do
 		description = desc.." Ativo",
 		inventory_image = textura_ferramenta,
 		on_use = function(itemstack, user)
-			itemstack:set_name("megarastreador:rastreador_ferramenta_"..nome)
-			return itemstack
+			--itemstack:set_name("megarastreador:rastreador_ferramenta_"..nome)
+			minetest.after(4, megarastreador_desligar_rastreador, user, itemstack)
 		end,
 		groups = {not_in_creative_inventory = 1},
 	})
@@ -87,7 +94,7 @@ for n, row in ipairs(megarastreador_rastreadores) do
 			    		meta:set_string("desgaste", 0)
 			    		local desgaste = meta:get_string("desgaste")
 			    		local porcentagem_desgaste = 100-( math.ceil( (desgaste/65535)*100 ) );
-						meta:set_string("infotext", "Rastreador (Beteria "..porcentagem_desgaste.."%)")
+						meta:set_string("infotext", "Rastreador (Bateria "..porcentagem_desgaste.."%)")
 						nodeupdate(pos)
 			    		itemstack:take_item()
 			    		megarastreador_beepar_redefiniu(player)
@@ -103,7 +110,7 @@ for n, row in ipairs(megarastreador_rastreadores) do
 			    	if novo_rastreador ~= nil then
 			    		node.name = novo_rastreador
 						minetest.env:set_node(pos, node)
-						meta:set_string("infotext", "Rastreador (Beteria "..porcentagem_desgaste.."%)")
+						meta:set_string("infotext", "Rastreador (Bateria "..porcentagem_desgaste.."%)")
 						meta:set_string("desgaste", desgaste)
 						nodeupdate(pos)
 						megarastreador_beepar_redefiniu(player)
@@ -112,6 +119,4 @@ for n, row in ipairs(megarastreador_rastreadores) do
 		    end
 	    end,
 	})
-	
-	minetest.register_alias("rastreadorde"..nome, "megarastreador:rastreador_ferramenta_"..nome)
 end
