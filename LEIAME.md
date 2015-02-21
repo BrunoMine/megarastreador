@@ -1,4 +1,4 @@
-MegaRastreador 1.0
+MegaRastreador 1.5
 ==========
 Criado por BrunoMine
 Comunidade Minetestbr
