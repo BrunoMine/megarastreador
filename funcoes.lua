@@ -278,15 +278,15 @@ function megarastreador_rastrear(player, itemstack, referencia)
 			megarastreador_beepar(player)
 			minetest.after(0.4, megarastreador_rastrear, player, itemstack, referencia)
 		else
-			if pos and minetest.find_node_near(pos, 5, referencia) ~= nil then
+			if pos and minetest.find_node_near(pos, 4, referencia) ~= nil then
 				megarastreador_beepar(player)
 				minetest.after(0.7, megarastreador_rastrear, player, itemstack, referencia)
 			else
-				if pos and minetest.find_node_near(pos, 9, referencia) ~= nil then
+				if pos and minetest.find_node_near(pos, 6, referencia) ~= nil then
 					megarastreador_beepar(player)
 					minetest.after(1.2, megarastreador_rastrear, player, itemstack, referencia)
 				else
-					if pos and minetest.find_node_near(pos, 15, referencia) ~= nil then
+					if pos and minetest.find_node_near(pos, 8, referencia) ~= nil then
 						megarastreador_beepar(player)
 						minetest.after(2, megarastreador_rastrear, player, itemstack, referencia)
 					else
