@@ -5,16 +5,16 @@
 -- (Voce pode definir algumas partes do mod como achar necessario)
 --
 
--- Total battery time (min)
+-- Tempo total da bateria
 local tempo_bateria_em_minutos = 10
 
--- Item that recharges the battery (string)
+-- Item que funciona como bateria (Id do item)
 local bateria = ""
 
 -- Limite de ferramentas ativas (por jogador)
 local limite_de_ferramentas_ativas = 1
 
--- Table Trackers (be careful when mounting the textures, check the already existing to use as an example)
+-- Tabela de Rastreadores (seja cuidadoso ao montar as texturas,  tome como referencias as já prontas)
 megarastreador_rastreadores = {
 	-- name			Description					Reference(string)				Texture of tool										Texture of node							Ativador(string)
 	{"mese",		"Rastreador de Mese",		"default:stone_with_mese",		"megarastreador_imagem_inventario_mese.png"	,		"megarastreador_frente_mese.png",		"default:mese_crystal"},
@@ -26,7 +26,6 @@ megarastreador_rastreadores = {
 
 megarastreador_bateria = bateria
 if megarastreador_bateria == "" then
-	--if brazutec then
 	if type(brazutec_laptop)=="table" then
 		megarastreador_bateria = "brazutec:bateria"
 	else
