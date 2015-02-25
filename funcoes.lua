@@ -261,12 +261,13 @@ function megarastreador_desgastar(player, itemstack)
 	if (65535-itemstack:get_wear()) <= (megarastreador_tempo_bateria) then
 		megarastreador_beepar_descarregou(player)
 	end
-	local inv = player:get_inventory()
-	if inv:contains_item("main", itemstack) then
-		inv:remove_item("main", itemstack)
-		itemstack:add_wear(megarastreador_tempo_bateria) 
-		inv:add_item("main", itemstack)
-		minetest.after(5, megarastreador_desgastar, player, itemstack)
+	if inv then
+		if inv:contains_item("main", itemstack) then
+			inv:remove_item("main", itemstack)
+			itemstack:add_wear(megarastreador_tempo_bateria) 
+			inv:add_item("main", itemstack)
+			minetest.after(5, megarastreador_desgastar, player, itemstack)
+		end
 	end
 end
 
