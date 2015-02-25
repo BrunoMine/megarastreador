@@ -261,13 +261,11 @@ function megarastreador_desgastar(player, itemstack)
 	if (65535-itemstack:get_wear()) <= (megarastreador_tempo_bateria) then
 		megarastreador_beepar_descarregou(player)
 	end
-	if inv then
-		if inv:contains_item("main", itemstack) then
-			inv:remove_item("main", itemstack)
-			itemstack:add_wear(megarastreador_tempo_bateria) 
-			inv:add_item("main", itemstack)
-			minetest.after(5, megarastreador_desgastar, player, itemstack)
-		end
+	if inv:contains_item("main", itemstack) then
+		inv:remove_item("main", itemstack)
+		itemstack:add_wear(megarastreador_tempo_bateria) 
+		inv:add_item("main", itemstack)
+		minetest.after(5, megarastreador_desgastar, player, itemstack)
 	end
 end
 
@@ -276,27 +274,33 @@ function megarastreador_rastrear(player, itemstack, referencia)
 	local inv = player:get_inventory()
 	if itemstack:get_name()~="" and inv:contains_item("main", itemstack)then
 		local pos = player:getpos()
-		if pos and minetest.find_node_near(pos, 2, referencia) ~= nil then
+		if pos and minetest.find_node_near(pos, 1, referencia) ~= nil then
 			megarastreador_beepar(player)
-			minetest.after(0.4, megarastreador_rastrear, player, itemstack, referencia)
+			minetest.after(0.1, megarastreador_rastrear, player, itemstack, referencia)
+		elseif pos and minetest.find_node_near(pos, 2, referencia) ~= nil then
+			megarastreador_beepar(player)
+			minetest.after(0.2, megarastreador_rastrear, player, itemstack, referencia)
+		elseif pos and minetest.find_node_near(pos, 3, referencia) ~= nil then
+			megarastreador_beepar(player)
+			minetest.after(0.3, megarastreador_rastrear, player, itemstack, referencia)
+		elseif pos and minetest.find_node_near(pos, 5, referencia) ~= nil then
+			megarastreador_beepar(player)
+			minetest.after(0.5, megarastreador_rastrear, player, itemstack, referencia)
+		elseif pos and minetest.find_node_near(pos, 8, referencia) ~= nil then
+			megarastreador_beepar(player)
+			minetest.after(0.8, megarastreador_rastrear, player, itemstack, referencia)
+		elseif pos and minetest.find_node_near(pos, 10, referencia) ~= nil then
+			megarastreador_beepar(player)
+			minetest.after(1.0, megarastreador_rastrear, player, itemstack, referencia)
+		elseif pos and minetest.find_node_near(pos, 15, referencia) ~= nil then
+			megarastreador_beepar(player)
+			minetest.after(1.5, megarastreador_rastrear, player, itemstack, referencia)
+		elseif pos and minetest.find_node_near(pos, 20, referencia) ~= nil then
+			megarastreador_beepar(player)
+			minetest.after(2.0, megarastreador_rastrear, player, itemstack, referencia)
 		else
-			if pos and minetest.find_node_near(pos, 4, referencia) ~= nil then
-				megarastreador_beepar(player)
-				minetest.after(0.7, megarastreador_rastrear, player, itemstack, referencia)
-			else
-				if pos and minetest.find_node_near(pos, 6, referencia) ~= nil then
-					megarastreador_beepar(player)
-					minetest.after(1.2, megarastreador_rastrear, player, itemstack, referencia)
-				else
-					if pos and minetest.find_node_near(pos, 8, referencia) ~= nil then
-						megarastreador_beepar(player)
-						minetest.after(2, megarastreador_rastrear, player, itemstack, referencia)
-					else
-						megarastreador_beepar(player)
-						minetest.after(4, megarastreador_rastrear, player, itemstack, referencia)
-					end
-				end
-			end
+			megarastreador_beepar(player)
+			minetest.after(4.0, megarastreador_rastrear, player, itemstack, referencia)
 		end
 	end
 end
